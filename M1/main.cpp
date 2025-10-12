@@ -1,3 +1,4 @@
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include "math_utils.hpp"
@@ -32,6 +33,7 @@ int main(int argc, char**argv)
     return 1;
   }
 
+  std::cout << std::setprecision(3) << std::fixed;
   while (std::cin)
   {
     int r = 0;
@@ -40,10 +42,12 @@ int main(int argc, char**argv)
     {
       return 0;
     }
-    std::cout << std::setprecision(3) << std::fixed;
     try
     {
-      std::cout << getArea(r, tries, seed) << '\n';
+      std::clock_t start = std::clock();
+      double res = getArea(r, tries, seed);
+      std::clock_t end = std::clock();
+      std::cout << res << ' ' << double(end - start) / CLOCKS_PER_SEC <<  '\n';
     }
     catch (const std::exception &e)
     {
