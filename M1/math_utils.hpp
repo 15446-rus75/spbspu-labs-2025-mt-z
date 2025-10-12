@@ -4,6 +4,6 @@
 namespace abramov
 {
   bool isInCircle(double x, double y, int r);
-  double getArea(int r, long long int tries, long long int seed);
+  double getArea(int r, long long int tries, long long int seed, unsigned int number);
 }
 #endif

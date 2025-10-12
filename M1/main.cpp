@@ -1,4 +1,5 @@
-#include <ctime>
+#include <chrono>
+#include <limits>
 #include <iomanip>
 #include <iostream>
 #include "math_utils.hpp"
@@ -37,17 +38,25 @@ int main(int argc, char**argv)
   while (std::cin)
   {
     int r = 0;
-    std::cin >> r;
+    unsigned int number = 0;
+    std::cin >> r >> number;
     if (std::cin.eof())
     {
       return 0;
     }
+    if (!std::cin)
+    {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+      continue;
+    }
     try
     {
-      std::clock_t start = std::clock();
-      double res = getArea(r, tries, seed);
-      std::clock_t end = std::clock();
-      std::cout << res << ' ' << double(end - start) / CLOCKS_PER_SEC <<  '\n';
+      auto start = std::chrono::high_resolution_clock::now();
+      double res = getArea(r, tries, seed, number);
+      auto end = std::chrono::high_resolution_clock::now();
+      auto time = std::chrono::duration_cast< std::chrono::milliseconds >(end - start).count();
+      std::cout << res << ' ' << time <<  '\n';
     }
     catch (const std::exception &e)
     {
