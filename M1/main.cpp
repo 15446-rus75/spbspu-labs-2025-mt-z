@@ -12,10 +12,18 @@ int main(int argc, char**argv)
   long long int seed = 0;
   if (argc >= 2 && argc <= 3)
   {
-    tries = std::stoll(argv[1]);
-    if (argc == 3)
+    try
     {
-      seed = std::stoll(argv[2]);
+      tries = std::stoll(argv[1]);
+      if (argc == 3)
+      {
+        seed = std::stoll(argv[2]);
+      }
+    }
+    catch (const std::exception &e)
+    {
+      std::cerr << e.what() << '\n';
+      return 1;
     }
   }
   else
@@ -55,7 +63,8 @@ int main(int argc, char**argv)
       auto start = std::chrono::high_resolution_clock::now();
       double res = getArea(r, tries, seed, number);
       auto end = std::chrono::high_resolution_clock::now();
-      auto time = std::chrono::duration_cast< std::chrono::milliseconds >(end - start).count();
+      auto raw_time = std::chrono::duration_cast< std::chrono::microseconds >(end - start).count();
+      auto time = static_cast< double >(raw_time) / 1000;
       std::cout << res << ' ' << time <<  '\n';
     }
     catch (const std::exception &e)
