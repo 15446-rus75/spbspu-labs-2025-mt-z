@@ -43,10 +43,10 @@ double abramov::getArea(int r, long long int tries, long long int seed, unsigned
   std::vector< std::thread > ths;
   ths.reserve(number);
   std::vector< size_t > ins(number, 0);
-  std::vector< size_t > alls(number, 0);
+  std::vector< size_t > alls(number , 0);
   size_t per_th = tries / number;
   size_t i = 0;
-  for (; i < number; ++i)
+  for (; i < number - 1; ++i)
   {
     ths.emplace_back(getInAllPoints, r, per_th, seed, ins.begin() + i, alls.begin() + i);
   }
