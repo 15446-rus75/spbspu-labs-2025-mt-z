@@ -33,3 +33,12 @@ std::ostream &abramov::Circle::printInfo(std::ostream &out) const noexcept
   out << r << ' ' << '(' << x << ' ' << y << ')';
   return out;
 }
+
+void abramov::ShapeCollection::addShape(const std::string &name, Shape* shape)
+{
+  if (shapes.find(name) != shapes.end())
+  {
+    throw std::logic_error("Figure already exists\n");
+  }
+  shapes.insert({ name, shape });
+}

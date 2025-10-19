@@ -1,6 +1,7 @@
 #ifndef GEOMETRY_HPP
 #define GEOMETRY_HPP
 #include <string>
+#include <unordered_map>
 #include "shape.hpp"
 
 namespace abramov
@@ -20,6 +21,13 @@ namespace abramov
     int y;
 
     void swap(Circle &other) noexcept;
+  };
+
+  struct ShapeCollection
+  {
+    void addShape(const std::string &name, Shape *shape);
+  private:
+    std::unordered_map< std::string, Shape* > shapes;
   };
 }
 #endif
