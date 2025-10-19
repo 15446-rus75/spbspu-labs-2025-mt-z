@@ -8,14 +8,13 @@ namespace abramov
 {
   struct Circle final: Shape
   {
-    Circle(const std::string &s, int rad, int xcoord, int ycoord);
+    Circle(int rad, int xcoord, int ycoord);
     ~Circle() override = default;
     int getRadius() const noexcept;
     int getX() const noexcept;
     int getY() const noexcept;
     std::ostream &printInfo(std::ostream &out = std::cout) const noexcept override;
   private:
-    std::string name;
     int r;
     int x;
     int y;
@@ -26,6 +25,7 @@ namespace abramov
   struct ShapeCollection
   {
     void addShape(const std::string &name, Shape *shape);
+    void printShapeInfo(const std::string &n, std::ostream &out = std::cout) const;
   private:
     std::unordered_map< std::string, Shape* > shapes;
   };

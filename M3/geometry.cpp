@@ -1,8 +1,7 @@
 #include "geometry.hpp"
 #include <stdexcept>
 
-abramov::Circle::Circle(const std::string &s, int rad, int xcoord, int ycoord):
-  name(s),
+abramov::Circle::Circle(int rad, int xcoord, int ycoord):
   r(rad),
   x(xcoord),
   y(ycoord)
@@ -41,4 +40,14 @@ void abramov::ShapeCollection::addShape(const std::string &name, Shape* shape)
     throw std::logic_error("Figure already exists\n");
   }
   shapes.insert({ name, shape });
+}
+
+void abramov::ShapeCollection::printShapeInfo(const std::string &name, std::ostream &out) const
+{
+  auto it = shapes.find(name);
+  if (it == shapes.end())
+  {
+    throw std::logic_error("There is no such shape\n");
+  }
+  it->second->printInfo(out);
 }
