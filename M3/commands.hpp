@@ -6,6 +6,6 @@
 
 namespace abramov
 {
-  void getCommands(std::map< std::string, std::function< void() > > &commands, ShapeCollection &collect);
+  void getCommands(std::map< std::string, std::function< void() > > &commands, ShapeCollection &collect, SetCollection &sets);
 }
 #endif

@@ -6,8 +6,9 @@ int main()
   using namespace abramov;
 
   ShapeCollection collection;
+  SetCollection sets;
   std::map< std::string, std::function< void() > > commands;
-  getCommands(commands, collection);
+  getCommands(commands, collection, sets);
 
   std::string command;
   while (!(std::cin >> command).eof())

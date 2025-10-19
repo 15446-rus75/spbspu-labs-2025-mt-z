@@ -1,6 +1,6 @@
 #include "io_utils.hpp"
 
-void abramov::addCircle(abramov::ShapeCollection &collect, std::istream &in)
+void abramov::addCircle(ShapeCollection &collect, std::istream &in)
 {
   using namespace abramov;
 
@@ -32,4 +32,31 @@ void abramov::showShape(const ShapeCollection &collect, std::istream &in, std::o
   in >> name;
   collect.printShapeInfo(name, out);
   out << '\n';
+}
+
+void abramov::addSet(ShapeCollection &collect, SetCollection &sets, std::istream &in)
+{
+  std::string set_name;
+  in >> set_name;
+  int size = 0;
+  in >> size;
+  if (!in || size <= 0)
+  {
+    throw std::logic_error("Wrong set-size");
+  }
+  abramov::ShapeSet set(collect);
+  std::string name;
+  for (size_t i = 0; i < size; ++i)
+  {
+    in >> name;
+    set.addShape(name, collect.getShape(name));
+  }
+  sets.addSet(set_name, set);
+}
+
+void abramov::showSet(const SetCollection &sets, std::istream &in, std::ostream &out)
+{
+  std::string name;
+  in >> name;
+  sets.printSet(name, out);
 }

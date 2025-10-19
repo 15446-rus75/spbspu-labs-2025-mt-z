@@ -26,9 +26,28 @@ namespace abramov
   {
     ~ShapeCollection();
     void addShape(const std::string &name, Shape *shape);
+    Shape *getShape(const std::string &name);
     void printShapeInfo(const std::string &n, std::ostream &out = std::cout) const;
   private:
     std::unordered_map< std::string, Shape* > shapes;
+  };
+
+  struct ShapeSet
+  {
+    ShapeSet(ShapeCollection &collect);
+    void addShape(const std::string &name, Shape *shape);
+    void printShapesInfo(std::ostream &out = std::cout) const;
+  private:
+    ShapeCollection &collect;
+    std::unordered_map< std::string, Shape* > shapes;
+  };
+
+  struct SetCollection
+  {
+    void addSet(const std::string &name, const ShapeSet &set);
+    void printSet(const std::string &name, std::ostream &out = std::cout) const;
+  private:
+    std::unordered_map< std::string, ShapeSet > sets;
   };
 }
 #endif
