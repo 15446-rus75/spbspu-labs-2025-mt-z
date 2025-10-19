@@ -33,6 +33,16 @@ std::ostream &abramov::Circle::printInfo(std::ostream &out) const noexcept
   return out;
 }
 
+abramov::ShapeCollection::~ShapeCollection()
+{
+  auto it = shapes.begin();
+  while (it != shapes.end())
+  {
+    delete it->second;
+    ++it;
+  }
+}
+
 void abramov::ShapeCollection::addShape(const std::string &name, Shape* shape)
 {
   if (shapes.find(name) != shapes.end())

@@ -24,6 +24,7 @@ namespace abramov
 
   struct ShapeCollection
   {
+    ~ShapeCollection();
     void addShape(const std::string &name, Shape *shape);
     void printShapeInfo(const std::string &n, std::ostream &out = std::cout) const;
   private:
