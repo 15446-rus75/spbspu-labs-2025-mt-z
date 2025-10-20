@@ -12,5 +12,6 @@ namespace abramov
   void showSet(const SetCollection &sets, std::istream &in = std::cin, std::ostream &out = std::cout);
   void printFrame(const ShapeCollection &collect, std::istream &in = std::cin, std::ostream &out = std::cout);
   void printSetFrame(const SetCollection &sets, std::istream &in = std::cin, std::ostream &out = std::cout);
+  void rotateShape(ShapeCollection &collect, std::istream &in = std::cin);
 }
 #endif

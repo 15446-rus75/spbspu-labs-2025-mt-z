@@ -105,3 +105,15 @@ void abramov::printSetFrame(const SetCollection &sets, std::istream &in, std::os
   sets.printSetFrameRect(name, out);
   out << '\n';
 }
+
+void abramov::rotateShape(ShapeCollection &collect, std::istream &in)
+{
+  std::string name;
+  double ksi;
+  in >> name >> ksi;
+  if (!in)
+  {
+    throw std::logic_error("Wrong params");
+  }
+  collect.rotateShape(name, ksi);
+}
