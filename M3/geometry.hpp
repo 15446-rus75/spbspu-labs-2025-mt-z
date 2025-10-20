@@ -38,8 +38,19 @@ namespace abramov
     int r;
     int x;
     int y;
+  };
 
-    void swap(Circle &other) noexcept;
+  struct Ellipse final: Shape
+  {
+    Ellipse(int rad_x, int rad_y, int xcoord, int ycoord);
+    ~Ellipse() override = default;
+    FrameRect getFrameRect() const;
+    std::ostream &printInfo(std::ostream &out = std::cout) const noexcept override;
+  private:
+    int r_x;
+    int r_y;
+    int x;
+    int y;
   };
 
   struct ShapeCollection

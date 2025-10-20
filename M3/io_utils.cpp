@@ -11,7 +11,7 @@ void abramov::addCircle(ShapeCollection &collect, std::istream &in)
   in >> name >> r >> x >> y;
   if (!in)
   {
-    throw std::logic_error("Wrong shape params\n");
+    throw std::logic_error("Wrong shape params");
   }
   Circle *shape = nullptr;
   try
@@ -20,6 +20,33 @@ void abramov::addCircle(ShapeCollection &collect, std::istream &in)
     collect.addShape(name, shape);
   }
   catch (const std::exception &)
+  {
+    delete shape;
+    throw;
+  }
+}
+
+void abramov::addEllipse(ShapeCollection &collect, std::istream &in)
+{
+  using namespace abramov;
+
+  std::string name;
+  int r_x = 0;
+  int r_y = 0;
+  int x = 0;
+  int y = 0;
+  in >> name >> r_x >> r_y >> x >> y;
+  if (!in)
+  {
+    throw std::logic_error("Wrong shape params");
+  }
+  Ellipse *shape = nullptr;
+  try
+  {
+    shape = new Ellipse(r_x, r_y, x, y);
+    collect.addShape(name, shape);
+  }
+  catch (const std::exception &e)
   {
     delete shape;
     throw;
@@ -76,4 +103,5 @@ void abramov::printSetFrame(const SetCollection &sets, std::istream &in, std::os
   std::string name;
   in >> name;
   sets.printSetFrameRect(name, out);
+  out << '\n';
 }

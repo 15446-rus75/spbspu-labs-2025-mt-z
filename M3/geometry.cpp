@@ -70,6 +70,29 @@ std::ostream &abramov::Circle::printInfo(std::ostream &out) const noexcept
   return out;
 }
 
+abramov::Ellipse::Ellipse(int rad_x, int rad_y, int xcoord, int ycoord):
+  r_x(rad_x),
+  r_y(rad_y),
+  x(xcoord),
+  y(ycoord)
+{
+  if (r_x <= 0 || r_y <= 0)
+  {
+    throw std::logic_error("Invalid radius");
+  }
+}
+
+abramov::FrameRect abramov::Ellipse::getFrameRect() const
+{
+  return FrameRect(Point(x - r_x, y - r_y), Point(x + r_x, y + r_y));
+}
+
+std::ostream &abramov::Ellipse::printInfo(std::ostream &out) const noexcept
+{
+  out << r_x << ' ' << r_y << ' ' << '(' << x << ' ' << y << ')';
+  return out;
+}
+
 abramov::ShapeCollection::~ShapeCollection()
 {
   auto it = shapes.begin();
