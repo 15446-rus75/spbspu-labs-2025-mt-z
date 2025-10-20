@@ -9,7 +9,9 @@ namespace abramov
   struct Point
   {
     Point(int xcoord, int ycoord);
-    void print(std::ostream &out = std::cout);
+    int getX() const noexcept;
+    int getY() const noexcept;
+    void print(std::ostream &out = std::cout) const;
   private:
     int x;
     int y;
@@ -18,7 +20,9 @@ namespace abramov
   struct FrameRect
   {
     FrameRect(const Point &point1, const Point &point2);
-    void print(std::ostream &out = std::cout);
+    Point getMinPoint() const;
+    Point getMaxPoint() const;
+    void print(std::ostream &out = std::cout) const;
   private:
     Point p1;
     Point p2;
@@ -54,6 +58,7 @@ namespace abramov
     ShapeSet(ShapeCollection &collect);
     void addShape(const std::string &name, Shape *shape);
     void printShapesInfo(std::ostream &out = std::cout) const;
+    FrameRect getFrameRect() const;
   private:
     ShapeCollection &collect;
     std::unordered_map< std::string, Shape* > shapes;
@@ -63,6 +68,7 @@ namespace abramov
   {
     void addSet(const std::string &name, const ShapeSet &set);
     void printSet(const std::string &name, std::ostream &out = std::cout) const;
+    void printSetFrameRect(const std::string &name, std::ostream &out = std::cout) const;
   private:
     std::unordered_map< std::string, ShapeSet > sets;
   };

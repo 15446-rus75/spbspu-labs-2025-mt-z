@@ -6,7 +6,17 @@ abramov::Point::Point(int xcoord, int ycoord):
   y(ycoord)
 {}
 
-void abramov::Point::print(std::ostream &out)
+int abramov::Point::getX() const noexcept
+{
+  return x;
+}
+
+int abramov::Point::getY() const noexcept
+{
+  return y;
+}
+
+void abramov::Point::print(std::ostream &out) const
 {
   out << '(' << x << ' ' << y << ')';
 }
@@ -14,9 +24,24 @@ void abramov::Point::print(std::ostream &out)
 abramov::FrameRect::FrameRect(const Point &point1, const Point &point2):
   p1(point1),
   p2(point2)
-{}
+{
+  if (p1.getX() >= p2.getX() || p1.getY() >= p2.getY())
+  {
+    throw std::logic_error("Invalid points");
+  }
+}
 
-void abramov::FrameRect::print(std::ostream &out)
+abramov::Point abramov::FrameRect::getMinPoint() const
+{
+  return p1;
+}
+
+abramov::Point abramov::FrameRect::getMaxPoint() const
+{
+  return p2;
+}
+
+void abramov::FrameRect::print(std::ostream &out) const
 {
   p1.print(out);
   out << ' ';
@@ -120,6 +145,25 @@ void abramov::ShapeSet::printShapesInfo(std::ostream &out) const
   }
 }
 
+abramov::FrameRect abramov::ShapeSet::getFrameRect() const
+{
+  int x_min = 0;
+  int x_max = 0;
+  int y_min = 0;
+  int y_max = 0;
+  auto it = shapes.begin();
+  while (it != shapes.end())
+  {
+    FrameRect rect = it->second->getFrameRect();
+    x_min = std::min(x_min, rect.getMinPoint().getX());
+    y_min = std::min(y_min, rect.getMinPoint().getY());
+    x_max = std::max(x_max, rect.getMaxPoint().getX());
+    y_max = std::max(y_max, rect.getMaxPoint().getY());
+    ++it;
+  }
+  return FrameRect(Point(x_min, y_min), Point(x_max, y_max));
+}
+
 void abramov::SetCollection::addSet(const std::string &name, const ShapeSet &set)
 {
   if (sets.find(name) != sets.end())
@@ -137,4 +181,15 @@ void abramov::SetCollection::printSet(const std::string &name, std::ostream &out
     throw std::logic_error("There is no such set");
   }
   it->second.printShapesInfo(out);
+}
+
+void abramov::SetCollection::printSetFrameRect(const std::string &name, std::ostream &out) const
+{
+  auto it = sets.find(name);
+  if (it == sets.end())
+  {
+    throw std::logic_error("There is no such set");
+  }
+  FrameRect rect = it->second.getFrameRect();
+  rect.print(out);
 }

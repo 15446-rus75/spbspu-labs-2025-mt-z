@@ -70,3 +70,10 @@ void abramov::printFrame(const ShapeCollection &collect, std::istream &in, std::
   collect.printShapeFrameRect(name, out);
   out << '\n';
 }
+
+void abramov::printSetFrame(const SetCollection &sets, std::istream &in, std::ostream &out)
+{
+  std::string name;
+  in >> name;
+  sets.printSetFrameRect(name, out);
+}
