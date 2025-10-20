@@ -1,6 +1,28 @@
 #include "geometry.hpp"
 #include <stdexcept>
 
+abramov::Point::Point(int xcoord, int ycoord):
+  x(xcoord),
+  y(ycoord)
+{}
+
+void abramov::Point::print(std::ostream &out)
+{
+  out << '(' << x << ' ' << y << ')';
+}
+
+abramov::FrameRect::FrameRect(const Point &point1, const Point &point2):
+  p1(point1),
+  p2(point2)
+{}
+
+void abramov::FrameRect::print(std::ostream &out)
+{
+  p1.print(out);
+  out << ' ';
+  p2.print(out);
+}
+
 abramov::Circle::Circle(int rad, int xcoord, int ycoord):
   r(rad),
   x(xcoord),
@@ -12,19 +34,9 @@ abramov::Circle::Circle(int rad, int xcoord, int ycoord):
   }
 }
 
-int abramov::Circle::getRadius() const noexcept
+abramov::FrameRect abramov::Circle::getFrameRect() const
 {
-  return r;
-}
-
-int abramov::Circle::getX() const noexcept
-{
-  return x;
-}
-
-int abramov::Circle::getY() const noexcept
-{
-  return y;
+  return FrameRect(Point(x - r, y - r), Point(x + r, y + r));
 }
 
 std::ostream &abramov::Circle::printInfo(std::ostream &out) const noexcept
@@ -70,6 +82,17 @@ void abramov::ShapeCollection::printShapeInfo(const std::string &name, std::ostr
     throw std::logic_error("There is no such shape");
   }
   it->second->printInfo(out);
+}
+
+void abramov::ShapeCollection::printShapeFrameRect(const std::string &name, std::ostream &out) const
+{
+  auto it = shapes.find(name);
+  if (it == shapes.end())
+  {
+    throw std::logic_error("There is no such shape");
+  }
+  FrameRect rect = it->second->getFrameRect();
+  rect.print(out);
 }
 
 abramov::ShapeSet::ShapeSet(abramov::ShapeCollection &col):

@@ -6,13 +6,29 @@
 
 namespace abramov
 {
+  struct Point
+  {
+    Point(int xcoord, int ycoord);
+    void print(std::ostream &out = std::cout);
+  private:
+    int x;
+    int y;
+  };
+
+  struct FrameRect
+  {
+    FrameRect(const Point &point1, const Point &point2);
+    void print(std::ostream &out = std::cout);
+  private:
+    Point p1;
+    Point p2;
+  };
+
   struct Circle final: Shape
   {
     Circle(int rad, int xcoord, int ycoord);
     ~Circle() override = default;
-    int getRadius() const noexcept;
-    int getX() const noexcept;
-    int getY() const noexcept;
+    FrameRect getFrameRect() const;
     std::ostream &printInfo(std::ostream &out = std::cout) const noexcept override;
   private:
     int r;
@@ -27,7 +43,8 @@ namespace abramov
     ~ShapeCollection();
     void addShape(const std::string &name, Shape *shape);
     Shape *getShape(const std::string &name);
-    void printShapeInfo(const std::string &n, std::ostream &out = std::cout) const;
+    void printShapeInfo(const std::string &name, std::ostream &out = std::cout) const;
+    void printShapeFrameRect(const std::string &name, std::ostream &out = std::cout) const;
   private:
     std::unordered_map< std::string, Shape* > shapes;
   };

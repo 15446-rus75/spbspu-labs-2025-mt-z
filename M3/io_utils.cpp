@@ -36,6 +36,8 @@ void abramov::showShape(const ShapeCollection &collect, std::istream &in, std::o
 
 void abramov::addSet(ShapeCollection &collect, SetCollection &sets, std::istream &in)
 {
+  using namespace abramov;
+
   std::string set_name;
   in >> set_name;
   int size = 0;
@@ -44,7 +46,7 @@ void abramov::addSet(ShapeCollection &collect, SetCollection &sets, std::istream
   {
     throw std::logic_error("Wrong set-size");
   }
-  abramov::ShapeSet set(collect);
+  ShapeSet set(collect);
   std::string name;
   for (size_t i = 0; i < size; ++i)
   {
@@ -59,4 +61,12 @@ void abramov::showSet(const SetCollection &sets, std::istream &in, std::ostream 
   std::string name;
   in >> name;
   sets.printSet(name, out);
+}
+
+void abramov::printFrame(const ShapeCollection &collect, std::istream &in, std::ostream &out)
+{
+  std::string name;
+  in >> name;
+  collect.printShapeFrameRect(name, out);
+  out << '\n';
 }

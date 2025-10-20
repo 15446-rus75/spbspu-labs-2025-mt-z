@@ -9,5 +9,6 @@ namespace abramov
   void showShape(const ShapeCollection &collect, std::istream &in = std::cin, std::ostream &out = std::cout);
   void addSet(ShapeCollection &collect, SetCollection &sets, std::istream &in = std::cin);
   void showSet(const SetCollection &sets, std::istream &in = std::cin, std::ostream &out = std::cout);
+  void printFrame(const ShapeCollection &collect, std::istream &in = std::cin, std::ostream &out = std::cout);
 }
 #endif
