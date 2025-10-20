@@ -1,6 +1,6 @@
 CXX := g++
 
-CXXFLAGS := -std=c++20 -Wall -Wextra
+CXXFLAGS := -std=c++20 -Wall -Wextra -Wno-sign-compare
 
 TARGET := program
 
