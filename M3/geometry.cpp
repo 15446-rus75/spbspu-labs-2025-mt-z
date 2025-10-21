@@ -107,13 +107,29 @@ void abramov::Ellipse::rotate(double ksi)
   double new_y2 = (x2 - x) * std::sin(ksi) + (y2 - y) * std::cos(ksi) + y;
   if (new_x1 < new_x2)
   {
-    p1 = Point(new_x1, new_y1);
-    p2 = Point(new_x2, new_y2);
+    if (new_y1 < new_y2)
+    {
+      p1 = Point(new_x1, new_y1);
+      p2 = Point(new_x2, new_y2);
+    }
+    else
+    {
+      p1 = Point(new_x1, new_y2);
+      p2 = Point(new_x2, new_y1);
+    }
   }
   else
   {
-    p1 = Point(new_x2, new_y2);
-    p2 = Point(new_x1, new_y1);
+    if (new_y1 < new_y2)
+    {
+      p1 = Point(new_x2, new_y1);
+      p2 = Point(new_x1, new_y2);
+    }
+    else
+    {
+      p1 = Point(new_x2, new_y2);
+      p2 = Point(new_x1, new_y1);
+    }
   }
   angle += ksi;
 }
