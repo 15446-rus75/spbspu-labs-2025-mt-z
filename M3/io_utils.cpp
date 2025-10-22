@@ -106,6 +106,16 @@ void abramov::printSetFrame(const SetCollection &sets, std::istream &in, std::os
   out << '\n';
 }
 
+void abramov::computeSetArea(const SetCollection &sets, std::istream &in, std::ostream &out)
+{
+  std::string name;
+  size_t threads = 0;
+  size_t tries = 0;
+  in >> name >> threads >> tries;
+  double area = sets.getAreaOfSet(name, threads, tries);
+  out << area << '\n';
+}
+
 void abramov::rotateShape(ShapeCollection &collect, std::istream &in)
 {
   std::string name;

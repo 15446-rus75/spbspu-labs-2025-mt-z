@@ -22,6 +22,7 @@ namespace abramov
     FrameRect(const Point &point1, const Point &point2);
     Point getMinPoint() const;
     Point getMaxPoint() const;
+    double getArea() const;
     void print(std::ostream &out = std::cout) const;
   private:
     Point p1;

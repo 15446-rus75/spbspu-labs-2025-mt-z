@@ -43,6 +43,11 @@ abramov::Point abramov::FrameRect::getMaxPoint() const
   return p2;
 }
 
+double abramov::FrameRect::getArea() const
+{
+  return (p2.getX() - p1.getX()) * (p2.getY() - p1.getY());
+}
+
 void abramov::FrameRect::print(std::ostream &out) const
 {
   p1.print(out);

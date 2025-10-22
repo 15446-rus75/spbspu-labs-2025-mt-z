@@ -9,5 +9,6 @@ void abramov::getCommands(std::map< std::string, std::function< void() > > &comm
   commands["showset"] = std::bind(showSet, std::cref(sets), std::ref(std::cin), std::ref(std::cout));
   commands["frame"] = std::bind(printFrame, std::cref(collect), std::ref(std::cin), std::ref(std::cout));
   commands["frameset"] = std::bind(printSetFrame, std::cref(sets), std::ref(std::cin), std::ref(std::cout));
+  commands["area-on"] = std::bind(computeSetArea, std::cref(sets), std::ref(std::cin), std::ref(std::cout));
   commands["rotate"] = std::bind(rotateShape, std::ref(collect), std::ref(std::cin));
 }

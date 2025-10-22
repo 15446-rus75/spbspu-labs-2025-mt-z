@@ -22,6 +22,7 @@ namespace abramov
     void addShape(const std::string &name, Shape *shape);
     void printShapesInfo(std::ostream &out = std::cout) const;
     FrameRect getFrameRect() const;
+    bool isPointIn(const Point &p) const;
   private:
     ShapeCollection &collect;
     std::unordered_map< std::string, Shape* > shapes;
@@ -30,6 +31,7 @@ namespace abramov
   struct SetCollection
   {
     void addSet(const std::string &name, const ShapeSet &set);
+    double getAreaOfSet(const std::string &name, size_t threads, size_t tries) const;
     void printSet(const std::string &name, std::ostream &out = std::cout) const;
     void printSetFrameRect(const std::string &name, std::ostream &out = std::cout) const;
   private:

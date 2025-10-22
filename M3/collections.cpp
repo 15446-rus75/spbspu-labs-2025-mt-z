@@ -1,4 +1,5 @@
 #include "collections.hpp"
+#include "area_processing.hpp"
 
 abramov::ShapeCollection::~ShapeCollection()
 {
@@ -104,6 +105,20 @@ abramov::FrameRect abramov::ShapeSet::getFrameRect() const
   return FrameRect(Point(x_min, y_min), Point(x_max, y_max));
 }
 
+bool abramov::ShapeSet::isPointIn(const Point &p) const
+{
+  auto it = shapes.begin();
+  while (it != shapes.end())
+  {
+    if (it->second->isPointIn(p))
+    {
+      return true;
+    }
+    ++it;
+  }
+  return false;
+}
+
 void abramov::SetCollection::addSet(const std::string &name, const ShapeSet &set)
 {
   if (sets.find(name) != sets.end())
@@ -111,6 +126,17 @@ void abramov::SetCollection::addSet(const std::string &name, const ShapeSet &set
     throw std::logic_error("Set already exists");
   }
   sets.insert({ name, set });
+}
+
+double abramov::SetCollection::getAreaOfSet(const std::string &name, size_t threads, size_t tries) const
+{
+  auto it = sets.find(name);
+  if (it == sets.end())
+  {
+    throw std::logic_error("There is no such set");
+  }
+  double area = getSetArea(it->second, threads, tries);
+  return area;
 }
 
 void abramov::SetCollection::printSet(const std::string &name, std::ostream &out) const
