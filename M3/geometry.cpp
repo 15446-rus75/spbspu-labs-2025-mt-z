@@ -69,6 +69,11 @@ abramov::FrameRect abramov::Circle::getFrameRect() const
 void abramov::Circle::rotate(double ksi)
 {}
 
+bool abramov::Circle::isPointIn(const Point &p) const
+{
+  return std::sqrt((x - p.getX()) * (x - p.getX()) + (y - p.getY()) * (y - p.getY())) - r < 0;
+}
+
 std::ostream &abramov::Circle::printInfo(std::ostream &out) const noexcept
 {
   out << r << ' ' << '(' << x << ' ' << y << ')';
@@ -132,6 +137,11 @@ void abramov::Ellipse::rotate(double ksi)
     }
   }
   angle += ksi;
+}
+
+bool abramov::Ellipse::isPointIn(const Point &p) const
+{
+  return (((x - p.getX()) * (x - p.getX())) / (r_x * r_x) + (y - p.getY()) * (y - p.getY()) / (r_y * r_y)) <= 1;
 }
 
 std::ostream &abramov::Ellipse::printInfo(std::ostream &out) const noexcept

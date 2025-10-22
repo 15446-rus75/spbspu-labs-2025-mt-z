@@ -34,6 +34,7 @@ namespace abramov
     ~Circle() override = default;
     FrameRect getFrameRect() const;
     void rotate(double ksi) override;
+    bool isPointIn(const Point &p) const;
     std::ostream &printInfo(std::ostream &out = std::cout) const noexcept override;
   private:
     double r;
@@ -47,6 +48,7 @@ namespace abramov
     ~Ellipse() override = default;
     FrameRect getFrameRect() const;
     void rotate(double ksi) override;
+    bool isPointIn(const Point &p) const;
     std::ostream &printInfo(std::ostream &out = std::cout) const noexcept override;
   private:
     double r_x;
