@@ -107,13 +107,24 @@ void abramov::printSetFrame(const SetCollection &sets, std::istream &in, std::os
   out << '\n';
 }
 
-void abramov::computeSetArea(const SetCollection &sets, std::istream &in, std::ostream &out)
+void abramov::spawnProcess(ProcessManager &man, std::istream &in)
 {
   std::string name;
+  long long int seed = 0;
+  in >> name >> seed;
+  man.spawnProcess(name, seed);
+}
+
+void abramov::computeSetArea(const SetCollection &sets, ProcessManager &man, std::istream &in)
+{
+  std::string process_name;
+  std::string calc_name;
+  std::string set_name;
   size_t threads = 0;
   size_t tries = 0;
-  long long seed = 0;
-  in >> name >> threads >> tries;
+  in >> process_name >> calc_name >> set_name >> threads >> tries;
+
+  long long int seed = man.getProcessSeed(process_name);
 
   int pipe_fds[2];
   if (pipe(pipe_fds) < 0)
@@ -135,7 +146,7 @@ void abramov::computeSetArea(const SetCollection &sets, std::istream &in, std::o
     double area = 0;
     try
     {
-      area = sets.getAreaOfSet(name, threads, tries, seed);
+      area = sets.getAreaOfSet(set_name, threads, tries, seed);
     }
     catch (const std::exception &e)
     {
@@ -176,8 +187,21 @@ void abramov::computeSetArea(const SetCollection &sets, std::istream &in, std::o
       }
     }
     close(pipe_fds[0]);
-    out << area << '\n';
+    man.setCalcArea(process_name, calc_name, area);
   }
+}
+
+void abramov::showCalcStatus(const ProcessManager &man, std::istream &in, std::ostream &out)
+{
+  std::string calc_name;
+  in >> calc_name;
+  double area = man.getCalcArea(calc_name);
+  if (!area)
+  {
+    out << "Calc is in progress or does not exist" << '\n';
+    return;
+  }
+  out << area << '\n';
 }
 
 void abramov::rotateShape(ShapeCollection &collect, std::istream &in)

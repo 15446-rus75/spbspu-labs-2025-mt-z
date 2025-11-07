@@ -7,8 +7,9 @@ int main()
 
   ShapeCollection collection;
   SetCollection sets;
+  ProcessManager manager;
   std::map< std::string, std::function< void() > > commands;
-  getCommands(commands, collection, sets);
+  getCommands(commands, collection, sets, manager);
 
   std::string command;
   while (!(std::cin >> command).eof())
