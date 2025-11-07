@@ -1,4 +1,5 @@
 #include "io_utils.hpp"
+#include <unistd.h>
 
 void abramov::addCircle(ShapeCollection &collect, std::istream &in)
 {
@@ -111,9 +112,72 @@ void abramov::computeSetArea(const SetCollection &sets, std::istream &in, std::o
   std::string name;
   size_t threads = 0;
   size_t tries = 0;
+  long long seed = 0;
   in >> name >> threads >> tries;
-  double area = sets.getAreaOfSet(name, threads, tries);
-  out << area << '\n';
+
+  int pipe_fds[2];
+  if (pipe(pipe_fds) < 0)
+  {
+    throw std::runtime_error("Can not to create pipe");
+  }
+
+  pid_t pid = fork();
+  if (pid < 0)
+  {
+    close(pipe_fds[0]);
+    close(pipe_fds[1]);
+    throw std::runtime_error("Can not to create process");
+  }
+
+  if (pid == 0)
+  {
+    close(pipe_fds[0]);
+    double area = 0;
+    try
+    {
+      area = sets.getAreaOfSet(name, threads, tries, seed);
+    }
+    catch (const std::exception &e)
+    {
+      std::cerr << e.what() << '\n';
+      exit(0);
+    }
+    int bytes = 0;
+    while (bytes < sizeof(double))
+    {
+      if (int ret = write(pipe_fds[1], &area + bytes, sizeof(double)); ret < 0)
+      {
+        std::cerr << "Failed to calculate\n";
+        break;
+      }
+      else
+      {
+        bytes += ret;
+      }
+    }
+    close(pipe_fds[1]);
+    exit(0);
+  }
+  else
+  {
+    close(pipe_fds[1]);
+    double area = 0;
+    int bytes = 0;
+    while (bytes < sizeof(double))
+    {
+      if (int ret = read(pipe_fds[0], &area + bytes, sizeof(double)); ret < 0)
+      {
+        std::cerr << "Failed to calculate\n";
+        break;
+      }
+      else
+      {
+        bytes += ret;
+      }
+    }
+    close(pipe_fds[0]);
+    out << area << '\n';
+  }
 }
 
 void abramov::rotateShape(ShapeCollection &collect, std::istream &in)

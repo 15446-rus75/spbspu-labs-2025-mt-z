@@ -31,7 +31,7 @@ namespace abramov
   struct SetCollection
   {
     void addSet(const std::string &name, const ShapeSet &set);
-    double getAreaOfSet(const std::string &name, size_t threads, size_t tries) const;
+    double getAreaOfSet(const std::string &name, size_t threads, size_t tries, long long int seed) const;
     void printSet(const std::string &name, std::ostream &out = std::cout) const;
     void printSetFrameRect(const std::string &name, std::ostream &out = std::cout) const;
   private:

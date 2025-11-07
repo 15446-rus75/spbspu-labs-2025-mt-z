@@ -128,14 +128,14 @@ void abramov::SetCollection::addSet(const std::string &name, const ShapeSet &set
   sets.insert({ name, set });
 }
 
-double abramov::SetCollection::getAreaOfSet(const std::string &name, size_t threads, size_t tries) const
+double abramov::SetCollection::getAreaOfSet(const std::string &name, size_t threads, size_t tries, long long int seed) const
 {
   auto it = sets.find(name);
   if (it == sets.end())
   {
     throw std::logic_error("There is no such set");
   }
-  double area = getSetArea(it->second, threads, tries);
+  double area = getSetArea(it->second, threads, tries, seed);
   return area;
 }
 
