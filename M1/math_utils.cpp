@@ -48,9 +48,9 @@ double abramov::getArea(int r, long long int tries, long long int seed, unsigned
   size_t i = 0;
   for (; i < number - 1; ++i)
   {
-    ths.emplace_back(getInAllPoints, r, per_th, seed, ins.begin() + i, alls.begin() + i);
+    ths.emplace_back(getInAllPoints, r, per_th, seed + i, ins.begin() + i, alls.begin() + i);
   }
-  getInAllPoints(r, per_th, seed, ins.begin() + i, alls.begin() + i);
+  getInAllPoints(r, per_th, seed + i, ins.begin() + i, alls.begin() + i);
   for (auto && th: ths)
   {
     th.join();
