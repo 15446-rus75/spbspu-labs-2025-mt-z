@@ -1,4 +1,6 @@
 #include "math_utils.hpp"
+#include <random>
+#include <vector>
 
 namespace
 {
@@ -25,7 +27,7 @@ namespace
   }
 }
 
-bool abramov::isInCircle(x, y, r)
+bool abramov::isInCircle(double x, double y, int r)
 {
   return std::sqrt(x * x + y * y) - r < 0;
 }

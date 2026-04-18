@@ -1,17 +1,22 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include "config.hpp"
 
 int main(int argc, char **argv)
 {
+  using namespace abramov;
+
   long long int tries = 0;
   long long int seed = 0;
+  std::string schedule;
+  size_t chunk;
+  Config config;
+
   if (argc >= 4 && argc <= 5)
   {
     try
     {
-      std::string schedule;
-      size_t chunk;
       tries = std::stoll(argv[1]);
       int index = 2;
       if (argc == 5)
@@ -46,6 +51,7 @@ int main(int argc, char **argv)
         std::cerr << "--chunk-size is not found\n";
         return 1;
       }
+      config = Config(schedule, chunk);
     }
     catch (const std::exception &e)
     {
