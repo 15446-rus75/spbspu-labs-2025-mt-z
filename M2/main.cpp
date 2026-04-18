@@ -1,3 +1,4 @@
+#include <string>
 #include <cstring>
 #include <iostream>
 
@@ -9,22 +10,37 @@ int main(int argc, char **argv)
   {
     try
     {
+      std::string schedule;
+      size_t chunk;
       tries = std::stoll(argv[1]);
       int index = 2;
       if (argc == 5)
       {
         index = 3;
         seed = std::stoll(argv[2]);
+        if (seed < 0)
+        {
+          std::cerr << "Seed must be positive\n";
+          return 1;
+        }
       }
-      if (strstr(argv[index], "--schedule="))
-      {}
+      if (std::strstr(argv[index], "--schedule="))
+      {
+        char schedule_temp[10];
+        std::strcpy(schedule_temp, std::strstr(argv[index], "=") + 1);
+        schedule = schedule_temp;
+      }
       else
       {
         std::cerr << "--schedule is not found\n";
         return 1;
       }
-      if (strstr(argv[++index], "--chunk-size="))
-      {}
+      if (std::strstr(argv[++index], "--chunk-size="))
+      {
+        char chunk_temp[10];
+        std::strcpy(chunk_temp, std::strstr(argv[index], "=") + 1);
+        chunk = std::stoull(chunk_temp);
+      }
       else
       {
         std::cerr << "--chunk-size is not found\n";
