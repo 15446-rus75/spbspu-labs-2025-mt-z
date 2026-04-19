@@ -2,6 +2,7 @@
 #include <cstring>
 #include <iostream>
 #include "config.hpp"
+#include "math_utils.hpp"
 
 int main(int argc, char **argv)
 {
@@ -74,4 +75,6 @@ int main(int argc, char **argv)
     std::cerr << "Seed must be positive\n";
     return 1;
   }
+
+  std::cout << getArea(1, 10000000, 1, 10) << '\n';
 }
