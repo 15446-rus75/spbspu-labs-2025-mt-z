@@ -37,6 +37,11 @@ omp_sched_t abramov::Config::getSchedule() const
   return omp_sched_auto;
 }
 
+std::string abramov::Config::getStringSchedule() const
+{
+  return schedule;
+}
+
 size_t abramov::Config::getChunk() const noexcept
 {
   return chunk;
@@ -49,7 +54,7 @@ void abramov::setSchedule(const Config &con)
 
 void abramov::showSchedule(const Config &con)
 {
-  std::cout << con.getSchedule() << ' ' << con.getChunk() << '\n';
+  std::cout << con.getStringSchedule() << ' ' << con.getChunk() << '\n';
 }
 
 abramov::AreaConfig::AreaConfig():

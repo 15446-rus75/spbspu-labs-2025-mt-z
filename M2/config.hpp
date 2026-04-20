@@ -11,6 +11,7 @@ namespace abramov
     Config();
     Config(const std::string &sch, size_t ch);
     omp_sched_t getSchedule() const;
+    std::string getStringSchedule() const;
     size_t getChunk() const noexcept;
   private:
     std::string schedule;
