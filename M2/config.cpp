@@ -10,9 +10,9 @@ abramov::Config::Config(const std::string &sch, size_t ch):
   schedule(sch),
   chunk(ch)
 {
-  if (sch != "static" && sch != "dynamic" && sch != "guided" && sch != "auto")
+  if (sch != "static" && sch != "dynamic" && sch != "guided" && sch != "auto" && sch != "manual" && sch != "worst")
   {
-    throw std::logic_error("Schedule must be static/dynamic/guided/auto");
+    throw std::logic_error("Schedule must be static/dynamic/guided/auto/manual/worst");
   }
   if (chunk == 0)
   {
@@ -22,11 +22,11 @@ abramov::Config::Config(const std::string &sch, size_t ch):
 
 omp_sched_t abramov::Config::getSchedule() const
 {
-  if (schedule == "static")
+  if (schedule == "static" || schedule == "manual")
   {
     return omp_sched_static;
   }
-  if (schedule == "dynamic")
+  if (schedule == "dynamic" || schedule == "worst")
   {
     return omp_sched_dynamic;
   }
@@ -49,7 +49,13 @@ size_t abramov::Config::getChunk() const noexcept
 
 void abramov::setSchedule(const Config &con)
 {
-  omp_set_schedule(con.getSchedule(), con.getChunk());
+  omp_sched_t sched = con.getSchedule();
+  size_t chunk = con.getChunk();
+  if (con.getStringSchedule() == "worst")
+  {
+    chunk = 1;
+  }
+  omp_set_schedule(sched, chunk);
 }
 
 void abramov::showSchedule(const Config &con)
