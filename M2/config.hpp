@@ -22,6 +22,7 @@ namespace abramov
 
   struct AreaConfig
   {
+    AreaConfig();
     AreaConfig(int radius, long long int tr, long long int s, int t);
     int getR() const noexcept;
     long long int getTries() const noexcept;
@@ -32,7 +33,7 @@ namespace abramov
     long long int tries;
     long long int seed;
     int ths;
-  }
+  };
 }
 
 #endif

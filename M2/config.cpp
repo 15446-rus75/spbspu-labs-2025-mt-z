@@ -1,4 +1,5 @@
 #include "config.hpp"
+#include <iostream>
 
 abramov::Config::Config():
   schedule("static"),
@@ -50,6 +51,13 @@ void abramov::showSchedule(const Config &con)
 {
   std::cout << con.getSchedule() << ' ' << con.getChunk() << '\n';
 }
+
+abramov::AreaConfig::AreaConfig():
+  r(1),
+  tries(1000),
+  seed(0),
+  ths(2)
+{}
 
 abramov::AreaConfig::AreaConfig(int radius, long long int tr, long long int s, int t):
   r(radius),

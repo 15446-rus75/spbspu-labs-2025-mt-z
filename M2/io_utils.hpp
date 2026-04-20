@@ -4,6 +4,9 @@
 #include <iostream>
 #include "math_utils.hpp"
 
-void printAreaOf(const AreaConfig &areacon);
+namespace abramov
+{
+  void printAreaOf(const AreaConfig &areacon);
+}
 
 #endif
