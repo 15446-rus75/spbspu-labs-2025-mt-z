@@ -1,8 +1,8 @@
+#include <limits>
 #include <string>
 #include <cstring>
 #include <iostream>
-#include "config.hpp"
-#include "math_utils.hpp"
+#include "commands.hpp"
 
 int main(int argc, char **argv)
 {
@@ -76,5 +76,22 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  std::cout << getArea(1, 10000000, 1, 10) << '\n';
+  AreaConfig areacon(1, tries, seed, 2);
+  std::map< std::string, std::function< void() > > commands;
+  getCommands(commands, config, areacon);
+
+  std::string command;
+  while (!(std::cin >> command).eof())
+  {
+    try
+    {
+      commands.at(command)();
+    }
+    catch (const std::exception &e)
+    {
+      std::cout << e.what() << '\n';
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits< std::streamsize >::max(), '\n');
+    }
+  }
 }

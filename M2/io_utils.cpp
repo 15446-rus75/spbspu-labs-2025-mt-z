@@ -18,5 +18,5 @@ void abramov::printAreaOf(AreaConfig &areacon)
   long long int seed = areacon.getSeed();
   long long int tries = areacon.getTries();
   areacon = AreaConfig(r, tries, seed, ths);
-  std::cout << getArea(areacon);
+  std::cout << getArea(areacon) << '\n';
 }
