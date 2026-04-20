@@ -1,0 +1,103 @@
+#include "config.hpp"
+#include <iostream>
+
+abramov::Config::Config():
+  schedule("static"),
+  chunk(1)
+{}
+
+abramov::Config::Config(const std::string &sch, size_t ch):
+  schedule(sch),
+  chunk(ch)
+{
+  if (sch != "static" && sch != "dynamic" && sch != "guided" && sch != "auto" && sch != "manual" && sch != "worst")
+  {
+    throw std::logic_error("Schedule must be static/dynamic/guided/auto/manual/worst");
+  }
+  if (chunk == 0)
+  {
+    throw std::logic_error("Chunk must be positive\n");
+  }
+}
+
+omp_sched_t abramov::Config::getSchedule() const
+{
+  if (schedule == "static" || schedule == "manual")
+  {
+    return omp_sched_static;
+  }
+  if (schedule == "dynamic" || schedule == "worst")
+  {
+    return omp_sched_dynamic;
+  }
+  if (schedule == "guided")
+  {
+    return omp_sched_guided;
+  }
+  return omp_sched_auto;
+}
+
+std::string abramov::Config::getStringSchedule() const
+{
+  return schedule;
+}
+
+size_t abramov::Config::getChunk() const noexcept
+{
+  return chunk;
+}
+
+void abramov::setSchedule(const Config &con)
+{
+  omp_sched_t sched = con.getSchedule();
+  size_t chunk = con.getChunk();
+  if (con.getStringSchedule() == "worst")
+  {
+    chunk = 1;
+  }
+  omp_set_schedule(sched, chunk);
+}
+
+void abramov::showSchedule(const Config &con)
+{
+  std::cout << con.getStringSchedule() << ' ' << con.getChunk() << '\n';
+}
+
+abramov::AreaConfig::AreaConfig():
+  r(1),
+  tries(1000),
+  seed(0),
+  ths(2)
+{}
+
+abramov::AreaConfig::AreaConfig(int radius, long long int tr, long long int s, int t):
+  r(radius),
+  tries(tr),
+  seed(s),
+  ths(t)
+{
+  if (r <= 0 || tr <= 0 || s < 0 || t < 0)
+  {
+    throw std::logic_error("R, tries, seed, threads must be positive\n");
+  }
+}
+
+int abramov::AreaConfig::getR() const noexcept
+{
+  return r;
+}
+
+long long int abramov::AreaConfig::getTries() const noexcept
+{
+  return tries;
+}
+
+long long int abramov::AreaConfig::getSeed() const noexcept
+{
+  return seed;
+}
+
+int abramov::AreaConfig::getThs() const noexcept
+{
+  return ths;
+}
