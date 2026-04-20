@@ -6,7 +6,8 @@
 
 namespace abramov
 {
-  void printAreaOf(const AreaConfig &areacon);
+  void readSetSchedule(Config &con);
+  void printAreaOf(AreaConfig &areacon);
 }
 
 #endif
