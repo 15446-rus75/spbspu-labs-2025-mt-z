@@ -5,7 +5,7 @@
 
 namespace abramov
 {
-  void fillArr(int *arr, size_t size, int seed);
+  void fillArr(int *arr, size_t size, int seed, size_t number);
 }
 
 #endif
