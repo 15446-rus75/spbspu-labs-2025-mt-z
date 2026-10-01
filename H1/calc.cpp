@@ -33,3 +33,9 @@ long long int abramov::sumArr(int *arr, size_t size, size_t number)
   }
   return std::accumulate(sums.begin(), sums.begin() + number, 0LL);
 }
+
+int abramov::mediana(int *times)
+{
+  std::sort(times, times + 5);
+  return times[2];
+}
