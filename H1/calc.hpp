@@ -5,7 +5,7 @@
 
 namespace abramov
 {
-  long long int sumArr(int *arr, size_t size);
+  long long int sumArr(int *arr, size_t size, size_t number);
 }
 
 #endif

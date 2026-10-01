@@ -21,8 +21,7 @@ void abramov::fillArr(int *arr, size_t size, int seed, size_t number)
   ths.reserve(number);
   size_t per_th = size / number;
   size_t index = 0;
-  size_t i = 0;
-  for (; i < number - 1; ++i)
+  for (size_t i = 0; i < number - 1; ++i)
   {
     ths.emplace_back(partialFillArr, arr, index, index + per_th, seed + i + 1);
     index += per_th;
