@@ -4,15 +4,10 @@
 ssize_t abramov::sendMessage(int fd, const char *cstr, size_t count)
 {
   size_t k = count;
-  if (write(fd, &k, sizeof(k)) < 0)
-  {
-    return -1;
-  }
-
   size_t bytes = 0;
-  while (bytes < count)
+  while (bytes < sizeof(k))
   {
-    if (int ret = write(fd, cstr, count - bytes); ret < 0)
+    if (ssize_t ret = write(fd, reinterpret_cast< const char* >(&k) + bytes, sizeof(k) - bytes); ret <= 0)
     {
       return -1;
     }
@@ -21,21 +16,29 @@ ssize_t abramov::sendMessage(int fd, const char *cstr, size_t count)
       bytes += ret;
     }
   }
-  return bytes;
+
+  bytes = 0;
+  while (bytes < count)
+  {
+    if (ssize_t ret = write(fd, cstr + bytes, count - bytes); ret <= 0)
+    {
+      return -1;
+    }
+    else
+    {
+      bytes += ret;
+    }
+  }
+  return bytes + sizeof(k);
 }
 
-ssize_t abramov::getMessage(int fd, char *buf)
+ssize_t abramov::getMessage(int fd, char **msgptr)
 {
   size_t count;
-  if (read(fd, &count, sizeof(count)) < 0)
-  {
-    return -1;
-  }
-
   size_t bytes = 0;
-  while (bytes < count)
+  while (bytes < sizeof(count))
   {
-    if (int ret = read(fd, buf, count - bytes); ret < 0)
+    if (ssize_t ret = read(fd, reinterpret_cast< char* >(&count) + bytes, sizeof(count) - bytes); ret <= 0)
     {
       return -1;
     }
@@ -44,5 +47,22 @@ ssize_t abramov::getMessage(int fd, char *buf)
       bytes += ret;
     }
   }
-  return bytes;
+
+  char *buf = new char[count + 1];
+  bytes = 0;
+  while (bytes < count)
+  {
+    if (ssize_t ret = read(fd, buf + bytes, count - bytes); ret <= 0)
+    {
+      delete[] buf;
+      return -1;
+    }
+    else
+    {
+      bytes += ret;
+    }
+  }
+  buf[count] = '\0';
+  *msgptr = buf;
+  return bytes + sizeof(count);
 }

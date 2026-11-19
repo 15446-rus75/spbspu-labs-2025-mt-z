@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+#include <sys/wait.h>
 #include <unistd.h>
 
 #include "message.hpp"
@@ -27,14 +28,15 @@ int main()
   else if (pid == 0)
   {
     close(pipe_fds[1]);
-    char cmsg[1024] = {};
-    if (getMessage(pipe_fds[0], cmsg) < 0)
+    char *msgptr = nullptr;
+    if (getMessage(pipe_fds[0], &msgptr) < 0)
     {
       std::cerr << "Failed to get msg" << '\n';
       return 2;
     }
     close(pipe_fds[0]);
-    std::cout << cmsg << '\n';
+    std::cout << msgptr << '\n';
+    delete[] msgptr;
     return 0;
   }
   else
@@ -53,6 +55,11 @@ int main()
       return 2;
     }
     close(pipe_fds[1]);
+    if (waitpid(pid, nullptr, 0) < 0)
+    {
+      std::cerr << "Incorrect process termination" << '\n';
+      return 2;
+    }
     return 0;
   }
 }
