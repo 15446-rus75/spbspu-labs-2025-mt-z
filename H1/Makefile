@@ -1,6 +1,6 @@
 CXX := g++
 
-CXXFLAGS := -std=c++23 -Wall -Wextra
+CXXFLAGS := -std=c++23 -Wall -Wextra -O2
 
 TARGET := program
 
