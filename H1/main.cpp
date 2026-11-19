@@ -7,9 +7,8 @@ int main()
 {
   using namespace abramov;
 
-  //constexpr size_t k = 2000000000;
+  constexpr size_t k = 2000000000;
 
-  constexpr size_t k = 8000000;
   int seed = 100;
   size_t number = 1;
   int *arr = new int[k];
