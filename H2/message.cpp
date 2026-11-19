@@ -1,4 +1,5 @@
 #include "message.hpp"
+#include <unistd.h>
 
 ssize_t abramov::sendMessage(int fd, const char *cstr, size_t count)
 {
@@ -26,7 +27,7 @@ ssize_t abramov::sendMessage(int fd, const char *cstr, size_t count)
 ssize_t abramov::getMessage(int fd, char *buf)
 {
   size_t count;
-  if (read(fd, &count, sizeof(count) < 0)
+  if (read(fd, &count, sizeof(count)) < 0)
   {
     return -1;
   }
@@ -34,7 +35,7 @@ ssize_t abramov::getMessage(int fd, char *buf)
   size_t bytes = 0;
   while (bytes < count)
   {
-    if (int ret = read(fd, cstr, count - bytes); ret < 0)
+    if (int ret = read(fd, buf, count - bytes); ret < 0)
     {
       return -1;
     }
